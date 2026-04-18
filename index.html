@@ -20,12 +20,10 @@
     --accent: #6c63ff;
     --accent2: #a78bfa;
     --hot: #ff6b6b;
-    --warm: #ffd93d;
     --green: #6bcb77;
     --text: #f0eeff;
     --muted: #7c7a9e;
     --dimmed: #3a3a52;
-    --radius: 16px;
     --font-head: 'Syne', sans-serif;
     --font-mono: 'DM Mono', monospace;
   }
@@ -36,23 +34,19 @@
     background: var(--bg);
     color: var(--text);
     font-family: var(--font-mono);
-    min-height: 100dvh;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     position: fixed;
     width: 100%;
-    height: 100%;
   }
 
-  /* Ambient background */
   body::before {
     content: '';
     position: fixed;
-    top: -30%;
-    left: -20%;
-    width: 60%;
-    height: 60%;
+    top: -30%; left: -20%;
+    width: 60%; height: 60%;
     background: radial-gradient(ellipse, #6c63ff18 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
@@ -60,19 +54,16 @@
   body::after {
     content: '';
     position: fixed;
-    bottom: -20%;
-    right: -20%;
-    width: 50%;
-    height: 50%;
+    bottom: -20%; right: -20%;
+    width: 50%; height: 50%;
     background: radial-gradient(ellipse, #ff6b6b10 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
   }
 
-  /* API Key Setup Screen */
+  /* ── Setup Screen ── */
   #setup-screen {
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background: var(--bg);
     z-index: 100;
     display: flex;
@@ -80,142 +71,96 @@
     align-items: center;
     justify-content: center;
     padding: 28px;
-    gap: 24px;
+    gap: 20px;
   }
   #setup-screen.hidden { display: none; }
 
   .setup-logo {
-    width: 72px;
-    height: 72px;
+    width: 72px; height: 72px;
     background: linear-gradient(135deg, var(--accent), var(--accent2));
     border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     font-size: 32px;
     box-shadow: 0 0 40px #6c63ff40;
   }
-
   .setup-title {
     font-family: var(--font-head);
-    font-size: 28px;
-    font-weight: 800;
+    font-size: 28px; font-weight: 800;
     text-align: center;
-    letter-spacing: -0.5px;
   }
   .setup-sub {
-    font-size: 13px;
-    color: var(--muted);
-    text-align: center;
-    line-height: 1.7;
+    font-size: 13px; color: var(--muted);
+    text-align: center; line-height: 1.7;
     max-width: 300px;
   }
   .setup-sub a { color: var(--accent2); text-decoration: none; }
-
-  .setup-input-wrap {
-    width: 100%;
-    max-width: 360px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
   .setup-label {
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    text-transform: uppercase;
+    font-size: 11px; letter-spacing: 0.08em;
+    color: var(--muted); text-transform: uppercase;
+    width: 100%; max-width: 360px;
   }
   .setup-input {
-    width: 100%;
+    width: 100%; max-width: 360px;
     background: var(--surface);
-    border: 1px solid var(--border2);
+    border: 1px solid var(--accent);
     border-radius: 12px;
     padding: 14px 16px;
     color: var(--text);
     font-family: var(--font-mono);
     font-size: 14px;
     outline: none;
-    transition: border-color 0.2s;
   }
-  .setup-input:focus { border-color: var(--accent); }
   .setup-input::placeholder { color: var(--dimmed); }
-
   .setup-btn {
-    width: 100%;
-    max-width: 360px;
+    width: 100%; max-width: 360px;
     background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border: none;
-    border-radius: 12px;
+    border: none; border-radius: 12px;
     padding: 16px;
     color: #fff;
     font-family: var(--font-head);
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 16px; font-weight: 700;
     cursor: pointer;
-    letter-spacing: 0.02em;
-    transition: opacity 0.2s, transform 0.1s;
     box-shadow: 0 8px 24px #6c63ff30;
+    transition: opacity 0.2s;
   }
-  .setup-btn:active { transform: scale(0.98); opacity: 0.9; }
-
+  .setup-btn:active { opacity: 0.85; }
   .setup-note {
-    font-size: 11px;
-    color: var(--dimmed);
-    text-align: center;
-    max-width: 300px;
-    line-height: 1.6;
+    font-size: 11px; color: var(--dimmed);
+    text-align: center; max-width: 300px; line-height: 1.6;
   }
 
-  /* Header */
+  /* ── Header ── */
   #header {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px 12px;
+    position: relative; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 18px;
     border-bottom: 1px solid var(--border);
     background: #0a0a0fcc;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     flex-shrink: 0;
   }
-
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+  .header-left { display: flex; align-items: center; gap: 10px; }
   .app-icon {
-    width: 34px;
-    height: 34px;
+    width: 34px; height: 34px;
     background: linear-gradient(135deg, var(--accent), var(--accent2));
     border-radius: 9px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     font-size: 16px;
-    flex-shrink: 0;
   }
   .app-title {
     font-family: var(--font-head);
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: -0.3px;
+    font-size: 18px; font-weight: 800;
   }
   .app-title span { color: var(--accent2); }
 
-  /* Mic status pill */
   #mic-status {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    display: flex; align-items: center; gap: 6px;
     background: var(--surface);
     border: 1px solid var(--border2);
     border-radius: 20px;
     padding: 6px 12px;
-    font-size: 11px;
-    letter-spacing: 0.06em;
+    font-size: 11px; letter-spacing: 0.05em;
     color: var(--muted);
     transition: all 0.3s;
   }
@@ -225,8 +170,7 @@
     color: var(--hot);
   }
   #mic-dot {
-    width: 7px;
-    height: 7px;
+    width: 7px; height: 7px;
     border-radius: 50%;
     background: var(--dimmed);
     transition: background 0.3s;
@@ -237,52 +181,35 @@
   }
   @keyframes pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.7); }
+    50% { opacity: 0.4; transform: scale(0.7); }
   }
 
-  /* Live transcription bar */
+  /* ── Live transcript bar ── */
   #transcript-bar {
-    position: relative;
-    z-index: 5;
-    padding: 12px 20px;
+    position: relative; z-index: 5;
+    padding: 10px 18px;
     background: var(--surface);
     border-bottom: 1px solid var(--border);
-    min-height: 52px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-  }
-  .transcript-icon {
-    font-size: 14px;
-    opacity: 0.5;
+    min-height: 48px;
+    display: flex; align-items: center; gap: 8px;
     flex-shrink: 0;
   }
   #live-text {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.4;
-    flex: 1;
-    font-style: italic;
+    font-size: 13px; color: var(--muted);
+    flex: 1; font-style: italic;
+    word-break: break-word; line-height: 1.4;
     transition: color 0.3s;
-    word-break: break-word;
   }
-  #live-text.has-text {
-    color: var(--accent2);
-    font-style: normal;
-  }
+  #live-text.has-text { color: var(--accent2); font-style: normal; }
 
-  /* Messages area */
+  /* ── Messages ── */
   #messages {
     flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 16px 16px 8px;
-    display: flex;
-    flex-direction: column;
+    overflow-y: auto; overflow-x: hidden;
+    padding: 14px 14px 6px;
+    display: flex; flex-direction: column;
     gap: 12px;
-    position: relative;
-    z-index: 1;
+    position: relative; z-index: 1;
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
   }
@@ -290,331 +217,241 @@
 
   /* Empty state */
   #empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    flex: 1;
-    padding: 40px 20px;
-    text-align: center;
-    opacity: 0.6;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 12px; flex: 1;
+    padding: 30px 20px;
+    text-align: center; opacity: 0.5;
   }
   #empty-state.hidden { display: none; }
-  .empty-icon {
-    font-size: 48px;
-    filter: grayscale(0.3);
-  }
+  .empty-icon { font-size: 44px; }
   .empty-title {
     font-family: var(--font-head);
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 17px; font-weight: 700;
     color: var(--muted);
   }
   .empty-desc {
-    font-size: 12px;
-    color: var(--dimmed);
-    line-height: 1.7;
-    max-width: 240px;
+    font-size: 12px; color: var(--dimmed);
+    line-height: 1.7; max-width: 220px;
   }
 
-  /* Message bubbles */
+  /* Message groups */
   .msg-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    animation: slideUp 0.3s ease-out;
+    display: flex; flex-direction: column; gap: 4px;
+    animation: slideUp 0.28s ease-out;
   }
   @keyframes slideUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-
   .msg-label {
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    color: var(--dimmed);
-    text-transform: uppercase;
+    font-size: 10px; letter-spacing: 0.08em;
+    color: var(--dimmed); text-transform: uppercase;
     padding: 0 4px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    display: flex; align-items: center; gap: 6px;
   }
   .msg-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
+    content: ''; flex: 1; height: 1px;
     background: var(--border);
   }
-
   .msg-you {
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: 12px 12px 4px 12px;
-    padding: 12px 14px;
-    font-size: 13px;
-    line-height: 1.6;
+    padding: 11px 13px;
+    font-size: 13px; line-height: 1.55;
     color: var(--muted);
     word-break: break-word;
-    margin-left: 20px;
+    margin-left: 16px;
   }
-
   .msg-ai {
     background: linear-gradient(135deg, #1a1a2e, #16162a);
-    border: 1px solid #6c63ff30;
+    border: 1px solid #6c63ff28;
     border-radius: 12px 12px 12px 4px;
-    padding: 14px 16px;
-    font-size: 14px;
-    line-height: 1.75;
+    padding: 13px 15px;
+    font-size: 14px; line-height: 1.75;
     color: var(--text);
     word-break: break-word;
-    margin-right: 20px;
+    margin-right: 16px;
+    box-shadow: 0 4px 18px #6c63ff0e;
     position: relative;
-    box-shadow: 0 4px 20px #6c63ff10;
   }
   .msg-ai::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #6c63ff50, transparent);
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, #6c63ff45, transparent);
     border-radius: 12px 12px 0 0;
   }
-
   .msg-time {
-    font-size: 10px;
-    color: var(--dimmed);
-    padding: 0 4px;
-    text-align: right;
+    font-size: 10px; color: var(--dimmed);
+    padding: 0 4px; text-align: right;
   }
 
   /* Typing indicator */
   #typing {
     display: none;
-    align-items: center;
-    gap: 5px;
-    padding: 12px 16px;
+    align-items: center; gap: 5px;
+    padding: 11px 14px;
     background: var(--surface2);
-    border: 1px solid #6c63ff20;
+    border: 1px solid #6c63ff18;
     border-radius: 12px 12px 12px 4px;
     width: fit-content;
-    margin-right: 20px;
+    margin-right: 16px;
   }
-  #typing.visible { display: flex; }
+  #typing.show { display: flex; }
   .dot {
-    width: 6px;
-    height: 6px;
+    width: 6px; height: 6px;
     border-radius: 50%;
     background: var(--accent2);
-    animation: typingDot 1.2s ease-in-out infinite;
+    animation: typeDot 1.2s ease-in-out infinite;
   }
   .dot:nth-child(2) { animation-delay: 0.2s; }
   .dot:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes typingDot {
+  @keyframes typeDot {
     0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
     30% { transform: translateY(-4px); opacity: 1; }
   }
 
-  /* Bottom controls */
+  /* ── Controls ── */
   #controls {
-    position: relative;
-    z-index: 10;
-    padding: 12px 16px 20px;
+    position: relative; z-index: 10;
+    padding: 10px 14px 22px;
     background: #0a0a0fcc;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    display: flex; flex-direction: column; gap: 8px;
     flex-shrink: 0;
   }
 
-  /* Mode row */
-  .mode-row {
-    display: flex;
-    gap: 8px;
-  }
+  .mode-row { display: flex; gap: 7px; }
   .mode-btn {
     flex: 1;
     background: var(--surface);
     border: 1px solid var(--border2);
-    border-radius: 10px;
+    border-radius: 9px;
     padding: 9px 6px;
     color: var(--muted);
     font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.04em;
+    font-size: 11px; letter-spacing: 0.04em;
     cursor: pointer;
-    transition: all 0.2s;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 3px;
+    transition: all 0.2s;
   }
-  .mode-btn .btn-icon { font-size: 16px; }
+  .mode-btn .btn-icon { font-size: 15px; }
   .mode-btn.active {
-    background: #6c63ff20;
+    background: #6c63ff1a;
     border-color: var(--accent);
     color: var(--accent2);
   }
   .mode-btn:active { transform: scale(0.96); }
 
-  /* Main action row */
-  .action-row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
+  .action-row { display: flex; gap: 8px; align-items: center; }
 
-  /* Big listen button */
   #listen-btn {
     flex: 1;
-    position: relative;
     background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border: none;
-    border-radius: 14px;
-    padding: 16px;
+    border: none; border-radius: 13px;
+    padding: 15px;
     color: #fff;
     font-family: var(--font-head);
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 15px; font-weight: 700;
     cursor: pointer;
-    letter-spacing: 0.02em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    box-shadow: 0 6px 18px #6c63ff30;
     transition: all 0.2s;
-    box-shadow: 0 6px 20px #6c63ff35;
-    overflow: hidden;
   }
-  #listen-btn::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: #fff;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  #listen-btn:active::after { opacity: 0.1; }
   #listen-btn.listening {
     background: linear-gradient(135deg, #ff6b6b, #ff4444);
-    box-shadow: 0 6px 20px #ff6b6b35;
+    box-shadow: 0 6px 18px #ff6b6b35;
     animation: btnPulse 2s ease-in-out infinite;
   }
   @keyframes btnPulse {
-    0%, 100% { box-shadow: 0 6px 20px #ff6b6b35; }
-    50% { box-shadow: 0 6px 32px #ff6b6b55; }
+    0%, 100% { box-shadow: 0 6px 18px #ff6b6b35; }
+    50%       { box-shadow: 0 6px 28px #ff6b6b55; }
   }
-  #listen-btn .btn-icon { font-size: 18px; }
+  #listen-btn:active { opacity: 0.88; transform: scale(0.98); }
 
-  /* Send button */
   #send-btn {
-    width: 52px;
-    height: 52px;
+    width: 50px; height: 50px;
     background: var(--surface2);
     border: 1px solid var(--border2);
-    border-radius: 14px;
-    color: var(--accent2);
-    font-size: 20px;
+    border-radius: 13px;
+    color: var(--accent2); font-size: 20px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; flex-shrink: 0;
   }
-  #send-btn:active { transform: scale(0.94); background: #6c63ff20; }
+  #send-btn:active { transform: scale(0.93); background: #6c63ff1a; }
 
-  /* Clear button */
   #clear-btn {
-    width: 52px;
-    height: 52px;
+    width: 50px; height: 50px;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    color: var(--dimmed);
-    font-size: 18px;
+    border-radius: 13px;
+    color: var(--dimmed); font-size: 17px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; flex-shrink: 0;
   }
-  #clear-btn:active { transform: scale(0.94); color: var(--hot); border-color: var(--hot); }
+  #clear-btn:active { color: var(--hot); border-color: var(--hot); }
 
-  /* Settings panel */
+  /* ── Settings sheet ── */
   #settings-panel {
-    position: fixed;
-    inset: 0;
-    z-index: 50;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    background: #00000080;
-    opacity: 0;
-    pointer-events: none;
+    position: fixed; inset: 0; z-index: 50;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    background: #00000085;
+    opacity: 0; pointer-events: none;
     transition: opacity 0.3s;
   }
-  #settings-panel.open {
-    opacity: 1;
-    pointer-events: all;
-  }
+  #settings-panel.open { opacity: 1; pointer-events: all; }
   #settings-sheet {
     background: var(--surface);
     border-radius: 24px 24px 0 0;
-    padding: 20px 20px 40px;
+    padding: 18px 18px 40px;
     transform: translateY(100%);
     transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
+    display: flex; flex-direction: column; gap: 14px;
   }
   #settings-panel.open #settings-sheet { transform: translateY(0); }
-
   .sheet-handle {
-    width: 36px;
-    height: 4px;
+    width: 36px; height: 4px;
     background: var(--dimmed);
     border-radius: 2px;
-    margin: 0 auto 4px;
+    margin: 0 auto 6px;
   }
   .sheet-title {
     font-family: var(--font-head);
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: -0.3px;
+    font-size: 19px; font-weight: 800;
   }
   .setting-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 13px;
     background: var(--surface2);
-    border-radius: 12px;
+    border-radius: 11px;
     border: 1px solid var(--border);
   }
   .setting-info { display: flex; flex-direction: column; gap: 2px; }
-  .setting-name { font-size: 14px; font-weight: 500; }
+  .setting-name { font-size: 14px; }
   .setting-desc { font-size: 11px; color: var(--muted); }
   .setting-val {
-    font-size: 13px;
-    color: var(--accent2);
+    font-size: 12px; color: var(--accent2);
     background: var(--surface);
     border: 1px solid var(--border2);
     border-radius: 8px;
-    padding: 6px 12px;
+    padding: 6px 10px;
     cursor: pointer;
     font-family: var(--font-mono);
+    appearance: none;
   }
   .sheet-close {
     background: var(--surface2);
     border: 1px solid var(--border2);
-    border-radius: 12px;
-    padding: 14px;
+    border-radius: 11px;
+    padding: 13px;
     color: var(--muted);
     font-family: var(--font-mono);
     font-size: 13px;
@@ -622,87 +459,47 @@
     text-align: center;
   }
 
-  /* Toast */
+  /* ── Toast ── */
   #toast {
     position: fixed;
-    top: 80px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-10px);
+    top: 78px; left: 50%;
+    transform: translateX(-50%) translateY(-8px);
     background: var(--surface2);
     border: 1px solid var(--border2);
     border-radius: 10px;
-    padding: 10px 18px;
-    font-size: 13px;
-    color: var(--text);
+    padding: 9px 16px;
+    font-size: 13px; color: var(--text);
     z-index: 200;
     opacity: 0;
-    transition: all 0.25s;
+    transition: all 0.22s;
     white-space: nowrap;
     pointer-events: none;
   }
-  #toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  /* Model selector */
-  select.setting-val {
-    appearance: none;
-    padding-right: 22px;
-    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237c7a9e'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-  }
-
-  /* Scrolled-to-bottom indicator */
-  #scroll-btn {
-    position: absolute;
-    bottom: 8px;
-    right: 16px;
-    width: 36px;
-    height: 36px;
-    background: var(--accent);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    cursor: pointer;
-    z-index: 5;
-    opacity: 0;
-    transform: scale(0.8);
-    transition: all 0.2s;
-    pointer-events: none;
-  }
-  #scroll-btn.visible {
-    opacity: 1;
-    transform: scale(1);
-    pointer-events: all;
-  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- Setup Screen -->
+<!-- ── Setup Screen ── -->
 <div id="setup-screen">
   <div class="setup-logo">🎙️</div>
   <div class="setup-title">AI Listener</div>
   <div class="setup-sub">
-    Your AI-powered conversation assistant.<br>
-    Get your <strong>100% free</strong> API key at <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a> — just your Google account, no card!
+    Get your <strong>100% free</strong> API key at
+    <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a>
+    — just your Google account, no card!
   </div>
-  <div class="setup-input-wrap">
-    <div class="setup-label">Google Gemini API Key (Free)</div>
-    <input class="setup-input" type="password" id="api-key-input" placeholder="AIza..." autocomplete="off" autocorrect="off" spellcheck="false">
-  </div>
+  <div class="setup-label">Google Gemini API Key (Free)</div>
+  <input class="setup-input" type="password" id="api-key-input"
+    placeholder="AIza..." autocomplete="off" spellcheck="false">
   <button class="setup-btn" onclick="saveApiKey()">Start Listening →</button>
   <div class="setup-note">
-    Your key is stored only on this device.<br>
-    Google Gemini is 100% free — 1,500 requests/day, no card needed.
+    Stored only on your device.<br>
+    1,500 free requests/day — no card ever needed.
   </div>
 </div>
 
-<!-- Main App -->
+<!-- ── Header ── -->
 <div id="header">
   <div class="header-left">
     <div class="app-icon">🎙️</div>
@@ -713,57 +510,57 @@
       <div id="mic-dot"></div>
       <span id="mic-label">OFF</span>
     </div>
-    <button onclick="openSettings()" style="background:var(--surface);border:1px solid var(--border2);border-radius:8px;width:34px;height:34px;color:var(--muted);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">⚙️</button>
+    <button onclick="openSettings()"
+      style="background:var(--surface);border:1px solid var(--border2);border-radius:8px;
+             width:34px;height:34px;color:var(--muted);font-size:16px;cursor:pointer;
+             display:flex;align-items:center;justify-content:center">⚙️</button>
   </div>
 </div>
 
+<!-- ── Live transcript ── -->
 <div id="transcript-bar">
-  <span class="transcript-icon">👂</span>
+  <span style="font-size:14px;opacity:0.5;flex-shrink:0">👂</span>
   <div id="live-text">Tap "Start Listening" to begin...</div>
 </div>
 
-<div id="messages" style="position:relative">
+<!-- ── Messages ── -->
+<div id="messages">
   <div id="empty-state">
     <div class="empty-icon">🧠</div>
     <div class="empty-title">Ready to listen</div>
-    <div class="empty-desc">Start listening and speak naturally. The AI will read the conversation and give you written answers.</div>
+    <div class="empty-desc">Speak naturally — AI reads the conversation and gives written answers.</div>
   </div>
-
   <div id="typing">
     <div class="dot"></div>
     <div class="dot"></div>
     <div class="dot"></div>
   </div>
-
-  <button id="scroll-btn" onclick="scrollToBottom()">↓</button>
 </div>
 
+<!-- ── Controls ── -->
 <div id="controls">
   <div class="mode-row">
     <button class="mode-btn active" id="mode-auto" onclick="setMode('auto')">
-      <span class="btn-icon">🔄</span>
-      Auto-send
+      <span class="btn-icon">🔄</span>Auto-send
     </button>
     <button class="mode-btn" id="mode-manual" onclick="setMode('manual')">
-      <span class="btn-icon">✋</span>
-      Manual
+      <span class="btn-icon">✋</span>Manual
     </button>
     <button class="mode-btn" id="mode-dictate" onclick="setMode('dictate')">
-      <span class="btn-icon">🎤</span>
-      Dictate
+      <span class="btn-icon">🎤</span>Dictate
     </button>
   </div>
   <div class="action-row">
-    <button id="clear-btn" onclick="clearAll()" title="Clear chat">🗑️</button>
+    <button id="clear-btn" onclick="clearAll()">🗑️</button>
     <button id="listen-btn" onclick="toggleListen()">
-      <span class="btn-icon" id="listen-icon">🎙️</span>
+      <span id="listen-icon">🎙️</span>
       <span id="listen-label">Start Listening</span>
     </button>
-    <button id="send-btn" onclick="sendManually()" title="Send to AI">↗</button>
+    <button id="send-btn" onclick="sendManually()">↗</button>
   </div>
 </div>
 
-<!-- Settings Panel -->
+<!-- ── Settings Panel ── -->
 <div id="settings-panel" onclick="closeSettings(event)">
   <div id="settings-sheet">
     <div class="sheet-handle"></div>
@@ -772,44 +569,44 @@
     <div class="setting-row">
       <div class="setting-info">
         <div class="setting-name">AI Model</div>
-        <div class="setting-desc">Flash = fastest free, Pro = smartest free</div>
+        <div class="setting-desc">2.0 Flash = fast & free</div>
       </div>
-      <select class="setting-val" id="model-select" onchange="saveSetting('model', this.value)">
-        <option value="gemini-1.5-flash-latest" selected>Gemini 1.5 Flash (fastest)</option>
-        <option value="gemini-1.5-pro-latest">Gemini 1.5 Pro (smartest)</option>
-        <option value="gemini-2.0-flash-exp">Gemini 2.0 Flash (newest)</option>
+      <select class="setting-val" id="model-select" onchange="saveSetting('model',this.value)">
+        <option value="gemini-2.0-flash" selected>2.0 Flash (fastest)</option>
+        <option value="gemini-2.5-flash">2.5 Flash (smartest)</option>
+        <option value="gemini-1.5-flash-001">1.5 Flash (stable)</option>
       </select>
     </div>
 
     <div class="setting-row">
       <div class="setting-info">
         <div class="setting-name">Auto-send delay</div>
-        <div class="setting-desc">Seconds of silence before sending</div>
+        <div class="setting-desc">Silence before sending to AI</div>
       </div>
-      <select class="setting-val" id="delay-select" onchange="saveSetting('delay', this.value)">
-        <option value="2">2s</option>
-        <option value="3" selected>3s</option>
-        <option value="5">5s</option>
-        <option value="8">8s</option>
+      <select class="setting-val" id="delay-select" onchange="saveSetting('delay',this.value)">
+        <option value="1.5">1.5s (fastest)</option>
+        <option value="3" selected>3s (balanced)</option>
+        <option value="5">5s (relaxed)</option>
+        <option value="8">8s (slow)</option>
       </select>
     </div>
 
     <div class="setting-row">
       <div class="setting-info">
         <div class="setting-name">Context memory</div>
-        <div class="setting-desc">How many exchanges to remember</div>
+        <div class="setting-desc">How many exchanges AI remembers</div>
       </div>
-      <select class="setting-val" id="context-select" onchange="saveSetting('context', this.value)">
-        <option value="5">5</option>
-        <option value="10" selected>10</option>
-        <option value="20">20</option>
+      <select class="setting-val" id="context-select" onchange="saveSetting('context',this.value)">
+        <option value="5">5 msgs</option>
+        <option value="10" selected>10 msgs</option>
+        <option value="20">20 msgs</option>
       </select>
     </div>
 
     <div class="setting-row">
       <div class="setting-info">
         <div class="setting-name">Change API Key</div>
-        <div class="setting-desc">Update your OpenAI key</div>
+        <div class="setting-desc">Reset and enter a new key</div>
       </div>
       <button class="setting-val" onclick="resetApiKey()">Reset</button>
     </div>
@@ -821,41 +618,44 @@
 <div id="toast"></div>
 
 <script>
-// ─── State ───
-let apiKey = localStorage.getItem('ai_listener_key') || '';
+// ── State ──
+let apiKey    = localStorage.getItem('ai_listener_key') || '';
 let isListening = false;
 let recognition = null;
-let currentTranscript = '';
-let fullTranscript = '';
-let conversationHistory = [];
-let autoSendTimer = null;
-let mode = 'auto'; // auto | manual | dictate
-let settings = {
-  model: localStorage.getItem('ai_model') || 'gemini-1.5-flash-latest',
-  delay: parseInt(localStorage.getItem('ai_delay') || '3'),
+let fullText  = '';
+let history   = [];
+let autoTimer = null;
+let mode      = 'auto';
+let settings  = {
+  model:   localStorage.getItem('ai_model')   || 'gemini-2.0-flash',
+  delay:   parseFloat(localStorage.getItem('ai_delay')   || '3'),
   context: parseInt(localStorage.getItem('ai_context') || '10'),
 };
 
-// ─── Init ───
+// ── Boot ──
 window.addEventListener('load', () => {
   if (apiKey) {
     document.getElementById('setup-screen').classList.add('hidden');
-    initSettings();
+    applySettings();
   }
 });
 
+function applySettings() {
+  document.getElementById('model-select').value   = settings.model;
+  document.getElementById('delay-select').value   = settings.delay;
+  document.getElementById('context-select').value = settings.context;
+}
+
+// ── API Key ──
 function saveApiKey() {
   const val = document.getElementById('api-key-input').value.trim();
-  if (!val.startsWith('AIza')) {
-    showToast('⚠️ Gemini key should start with AIza');
-    return;
-  }
+  if (!val.startsWith('AIza')) { showToast('⚠️ Key must start with AIza'); return; }
   apiKey = val;
   localStorage.setItem('ai_listener_key', val);
   document.getElementById('setup-screen').classList.add('hidden');
-  showToast('✅ API key saved!');
+  applySettings();
+  showToast('✅ Key saved!');
 }
-
 function resetApiKey() {
   localStorage.removeItem('ai_listener_key');
   apiKey = '';
@@ -864,224 +664,159 @@ function resetApiKey() {
   document.getElementById('setup-screen').classList.remove('hidden');
 }
 
-function initSettings() {
-  document.getElementById('model-select').value = settings.model;
-  document.getElementById('delay-select').value = settings.delay;
-  document.getElementById('context-select').value = settings.context;
-}
-
+// ── Settings ──
 function saveSetting(key, val) {
-  settings[key] = key === 'delay' || key === 'context' ? parseInt(val) : val;
+  if (key === 'delay')   settings.delay   = parseFloat(val);
+  else if (key === 'context') settings.context = parseInt(val);
+  else settings[key] = val;
   localStorage.setItem('ai_' + key, val);
   showToast('✅ Saved');
 }
+function openSettings()  { document.getElementById('settings-panel').classList.add('open'); }
+function closeSettings(e) {
+  if (!e || e.target === document.getElementById('settings-panel'))
+    document.getElementById('settings-panel').classList.remove('open');
+}
 
-// ─── Speech Recognition ───
+// ── Speech Recognition ──
 function startRecognition() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    showToast('❌ Speech recognition not supported. Use Safari on iOS.');
-    return;
-  }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { showToast('❌ Use Safari on iPhone'); return; }
 
-  recognition = new SpeechRecognition();
-  recognition.continuous = mode !== 'dictate';
+  recognition = new SR();
+  recognition.continuous    = mode !== 'dictate';
   recognition.interimResults = true;
-  recognition.lang = 'en-US';
-  recognition.maxAlternatives = 1;
+  recognition.lang          = 'en-US';
 
-  recognition.onstart = () => {
-    isListening = true;
-    updateMicUI(true);
-  };
+  recognition.onstart = () => { isListening = true; updateMicUI(true); };
 
   recognition.onresult = (e) => {
-    let interim = '';
-    let final = '';
+    let final = '', interim = '';
     for (let i = e.resultIndex; i < e.results.length; i++) {
-      const t = e.results[i][0].transcript;
-      if (e.results[i].isFinal) final += t + ' ';
-      else interim += t;
+      if (e.results[i].isFinal) final += e.results[i][0].transcript + ' ';
+      else interim += e.results[i][0].transcript;
     }
-
-    if (final) {
-      fullTranscript += final;
-      currentTranscript = fullTranscript.trim();
-    }
-    const display = (fullTranscript + interim).trim();
-    updateLiveText(display || '');
+    if (final) fullText += final;
+    updateLiveText((fullText + interim).trim());
 
     if (final && mode === 'auto') {
-      clearTimeout(autoSendTimer);
-      autoSendTimer = setTimeout(() => {
-        if (currentTranscript.trim().length > 3) sendToAI();
+      clearTimeout(autoTimer);
+      autoTimer = setTimeout(() => {
+        if (fullText.trim().length > 2) sendToAI();
       }, settings.delay * 1000);
     }
   };
 
   recognition.onend = () => {
     if (isListening && mode !== 'dictate') {
-      // Auto-restart for continuous listening
       try { recognition.start(); } catch(e) {}
     } else {
       isListening = false;
       updateMicUI(false);
-      if (mode === 'dictate' && currentTranscript.trim()) {
-        sendToAI();
-      }
+      if (mode === 'dictate' && fullText.trim()) sendToAI();
     }
   };
 
   recognition.onerror = (e) => {
     if (e.error === 'not-allowed') {
-      showToast('❌ Microphone permission denied');
-      isListening = false;
-      updateMicUI(false);
-    } else if (e.error !== 'no-speech') {
-      console.log('Recognition error:', e.error);
+      showToast('❌ Mic permission denied');
+      isListening = false; updateMicUI(false);
     }
   };
 
-  try {
-    recognition.start();
-  } catch(e) {
-    showToast('❌ Could not start microphone');
-  }
+  try { recognition.start(); } catch(e) { showToast('❌ Cannot start mic'); }
 }
 
 function stopRecognition() {
-  clearTimeout(autoSendTimer);
+  clearTimeout(autoTimer);
   isListening = false;
-  if (recognition) {
-    try { recognition.stop(); } catch(e) {}
-    recognition = null;
-  }
+  if (recognition) { try { recognition.stop(); } catch(e) {} recognition = null; }
   updateMicUI(false);
   updateLiveText('');
 }
 
-// ─── UI Updates ───
-function updateMicUI(active) {
-  const status = document.getElementById('mic-status');
-  const label = document.getElementById('mic-label');
-  const btn = document.getElementById('listen-btn');
-  const icon = document.getElementById('listen-icon');
-  const listenLabel = document.getElementById('listen-label');
-
-  if (active) {
-    status.classList.add('active');
-    label.textContent = 'LIVE';
-    btn.classList.add('listening');
-    icon.textContent = '⏹';
-    listenLabel.textContent = 'Stop Listening';
-  } else {
-    status.classList.remove('active');
-    label.textContent = 'OFF';
-    btn.classList.remove('listening');
-    icon.textContent = '🎙️';
-    listenLabel.textContent = mode === 'dictate' ? 'Hold to Dictate' : 'Start Listening';
-  }
-}
-
-function updateLiveText(text) {
-  const el = document.getElementById('live-text');
-  if (text) {
-    el.textContent = text;
-    el.classList.add('has-text');
-  } else {
-    el.textContent = isListening ? 'Listening... speak now' : 'Tap "Start Listening" to begin...';
-    el.classList.remove('has-text');
-  }
-}
-
-// ─── Controls ───
 function toggleListen() {
-  if (isListening) {
-    stopRecognition();
-  } else {
-    fullTranscript = '';
-    currentTranscript = '';
-    startRecognition();
-  }
+  if (isListening) { stopRecognition(); }
+  else { fullText = ''; startRecognition(); }
 }
 
 function setMode(m) {
   mode = m;
   document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('mode-' + m).classList.add('active');
-
-  const listenLabel = document.getElementById('listen-label');
-  if (m === 'dictate') listenLabel.textContent = 'Start Dictating';
-  else listenLabel.textContent = 'Start Listening';
-
+  document.getElementById('listen-label').textContent =
+    m === 'dictate' ? 'Start Dictating' : 'Start Listening';
   if (isListening) stopRecognition();
-  showToast(m === 'auto' ? '🔄 Auto-send mode' : m === 'manual' ? '✋ Manual mode' : '🎤 Dictate mode');
+  showToast(m === 'auto' ? '🔄 Auto-send on' : m === 'manual' ? '✋ Manual mode' : '🎤 Dictate mode');
 }
 
 function sendManually() {
-  if (!currentTranscript.trim()) {
-    showToast('⚠️ Nothing to send yet');
-    return;
-  }
-  clearTimeout(autoSendTimer);
+  if (!fullText.trim()) { showToast('⚠️ Nothing to send'); return; }
+  clearTimeout(autoTimer);
   sendToAI();
 }
 
 function clearAll() {
-  conversationHistory = [];
-  fullTranscript = '';
-  currentTranscript = '';
-  document.getElementById('messages').innerHTML = `
+  history = []; fullText = '';
+  const msgs = document.getElementById('messages');
+  msgs.innerHTML = `
     <div id="empty-state">
       <div class="empty-icon">🧠</div>
       <div class="empty-title">Ready to listen</div>
-      <div class="empty-desc">Start listening and speak naturally. The AI will read the conversation and give you written answers.</div>
+      <div class="empty-desc">Speak naturally — AI reads the conversation and gives written answers.</div>
     </div>
-    <div id="typing"></div>
-    <button id="scroll-btn" onclick="scrollToBottom()">↓</button>`;
+    <div id="typing">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>`;
   updateLiveText('');
   showToast('🗑️ Cleared');
 }
 
-// ─── AI ───
+// ── UI helpers ──
+function updateMicUI(active) {
+  document.getElementById('mic-status').classList.toggle('active', active);
+  document.getElementById('mic-label').textContent = active ? 'LIVE' : 'OFF';
+  document.getElementById('listen-btn').classList.toggle('listening', active);
+  document.getElementById('listen-icon').textContent = active ? '⏹' : '🎙️';
+  document.getElementById('listen-label').textContent =
+    active ? 'Stop Listening'
+           : (mode === 'dictate' ? 'Start Dictating' : 'Start Listening');
+}
+function updateLiveText(t) {
+  const el = document.getElementById('live-text');
+  if (t) { el.textContent = t; el.classList.add('has-text'); }
+  else   { el.textContent = isListening ? 'Listening… speak now' : 'Tap "Start Listening" to begin...'; el.classList.remove('has-text'); }
+}
+
+// ── AI call (Google Gemini) ──
 async function sendToAI() {
-  const text = currentTranscript.trim();
+  const text = fullText.trim();
   if (!text || !apiKey) return;
 
-  // Reset transcript buffer for next utterance
-  fullTranscript = '';
-  currentTranscript = '';
+  fullText = '';
   updateLiveText('');
 
   // Hide empty state
   const empty = document.getElementById('empty-state');
   if (empty) empty.classList.add('hidden');
 
-  // Add user message
   addMessage('you', text);
 
-  // Show typing
   const typing = document.getElementById('typing');
-  if (typing) {
-    typing.className = 'msg-group visible';
-    typing.style.display = 'flex';
-  }
-  scrollToBottom();
+  if (typing) typing.classList.add('show');
+  scrollBottom();
 
-  // Build context for Gemini format
-  conversationHistory.push({ role: 'user', parts: [{ text }] });
-  if (conversationHistory.length > settings.context * 2) {
-    conversationHistory = conversationHistory.slice(-settings.context * 2);
-  }
+  // Build Gemini history
+  history.push({ role: 'user', parts: [{ text }] });
+  if (history.length > settings.context * 2)
+    history = history.slice(-settings.context * 2);
 
-  const systemPrompt = `You are an AI conversation assistant. You listen to spoken conversations and provide helpful written responses.
+  const systemPrompt = `You are an AI conversation assistant listening to spoken conversations.
 Rules:
-- Respond in text ONLY — no suggestions to speak, no voice references
-- Be concise and direct
-- If a question is asked, answer it clearly
-- If it's general conversation, provide relevant insights or helpful context
-- Keep responses under 150 words unless more detail is genuinely needed
-- Do not prefix with "I heard you say" or similar — just respond helpfully`;
+- Respond in TEXT ONLY — no voice suggestions
+- Be concise and direct (under 150 words unless detail is needed)
+- Answer questions clearly; give useful context for general conversation
+- Never start with "I heard you say" — just respond helpfully`;
 
   try {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${settings.model}:generateContent?key=${apiKey}`;
@@ -1090,92 +825,57 @@ Rules:
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         system_instruction: { parts: [{ text: systemPrompt }] },
-        contents: conversationHistory,
+        contents: history,
         generationConfig: { maxOutputTokens: 300, temperature: 0.7 }
       })
     });
 
     const data = await res.json();
-    if (typing) typing.style.display = 'none';
+    if (typing) typing.classList.remove('show');
 
     if (data.error) {
       showToast('❌ ' + (data.error.message || 'API error'));
-      conversationHistory.pop();
-      return;
+      history.pop(); return;
     }
 
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
     if (reply) {
-      conversationHistory.push({ role: 'model', parts: [{ text: reply }] });
+      history.push({ role: 'model', parts: [{ text: reply }] });
       addMessage('ai', reply);
     }
   } catch (err) {
-    if (typing) typing.style.display = 'none';
-    showToast('❌ Network error. Check connection.');
-    conversationHistory.pop();
+    if (typing) typing.classList.remove('show');
+    showToast('❌ Network error');
+    history.pop();
   }
-
-  scrollToBottom();
+  scrollBottom();
 }
 
 function addMessage(who, text) {
-  const messages = document.getElementById('messages');
-  const group = document.createElement('div');
-  group.className = 'msg-group';
-
-  const now = new Date();
-  const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-  if (who === 'you') {
-    group.innerHTML = `
-      <div class="msg-label">You said</div>
-      <div class="msg-you">${escHtml(text)}</div>
-      <div class="msg-time">${time}</div>
-    `;
-  } else {
-    group.innerHTML = `
-      <div class="msg-label">AI response</div>
-      <div class="msg-ai">${formatAI(text)}</div>
-      <div class="msg-time">${time}</div>
-    `;
-  }
-
-  // Insert before typing indicator
-  const typing = document.getElementById('typing');
-  if (typing) messages.insertBefore(group, typing);
-  else messages.appendChild(group);
-}
-
-function escHtml(t) {
-  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-function formatAI(text) {
-  // Basic markdown: bold, bullets
-  return escHtml(text)
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/^- (.+)$/gm, '• $1')
-    .replace(/\n/g, '<br>');
-}
-
-// ─── Settings panel ───
-function openSettings() {
-  document.getElementById('settings-panel').classList.add('open');
-}
-function closeSettings(e) {
-  if (!e || e.target === document.getElementById('settings-panel')) {
-    document.getElementById('settings-panel').classList.remove('open');
-  }
-}
-
-// ─── Scroll ───
-function scrollToBottom() {
   const msgs = document.getElementById('messages');
-  msgs.scrollTop = msgs.scrollHeight;
+  const g = document.createElement('div');
+  g.className = 'msg-group';
+  const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const label = who === 'you' ? 'You said' : 'AI response';
+  g.innerHTML = `
+    <div class="msg-label">${label}</div>
+    <div class="msg-${who}">${esc(text)}</div>
+    <div class="msg-time">${now}</div>`;
+  const typing = document.getElementById('typing');
+  if (typing) msgs.insertBefore(g, typing); else msgs.appendChild(g);
+  scrollBottom();
 }
 
-// ─── Toast ───
+function esc(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+          .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+          .replace(/\*(.*?)\*/g,'<em>$1</em>')
+          .replace(/\n/g,'<br>');
+}
+function scrollBottom() {
+  const m = document.getElementById('messages');
+  m.scrollTop = m.scrollHeight;
+}
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -1183,9 +883,9 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-// Prevent double-tap zoom on iOS
+// Prevent double-tap zoom on iOS buttons
 document.addEventListener('touchend', e => {
-  if (e.target.tagName === 'BUTTON') e.preventDefault();
+  if (e.target.closest('button')) e.preventDefault();
 }, { passive: false });
 </script>
 </body>
