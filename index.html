@@ -26,40 +26,34 @@
     --dimmed: #3a3a52;
     --font-head: 'Syne', sans-serif;
     --font-mono: 'DM Mono', monospace;
-    /* iOS safe areas */
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --vh: 100vh;
   }
 
   * {
     margin: 0; padding: 0;
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
   }
 
-  /* ── iOS Safari viewport fix ── */
-  html {
-    height: -webkit-fill-available;
+  html, body {
     height: 100%;
-  }
-
-  body {
+    width: 100%;
     background: var(--bg);
     color: var(--text);
     font-family: var(--font-mono);
-    /* iOS Safari full height fix */
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
+    overscroll-behavior: none;
+  }
+
+  body {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    /* Prevents bounce scroll on iOS */
-    position: fixed;
-    width: 100%;
-    top: 0; left: 0; right: 0; bottom: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
     padding-top: var(--safe-top);
     padding-bottom: var(--safe-bottom);
+    overflow: hidden;
   }
 
   body::before {
@@ -71,7 +65,6 @@
     pointer-events: none; z-index: 0;
   }
 
-  /* ── Setup Screen ── */
   #setup-screen {
     position: fixed; inset: 0;
     background: var(--bg);
@@ -79,9 +72,10 @@
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
     padding: 28px;
+    padding-top: calc(28px + var(--safe-top));
+    padding-bottom: calc(28px + var(--safe-bottom));
     gap: 18px;
     overflow-y: auto;
-    /* iOS scroll fix */
     -webkit-overflow-scrolling: touch;
   }
   #setup-screen.hidden { display: none; }
@@ -95,24 +89,12 @@
     box-shadow: 0 0 40px #6c63ff40;
     flex-shrink: 0;
   }
-  .setup-title {
-    font-family: var(--font-head);
-    font-size: 26px; font-weight: 800;
-    text-align: center;
-  }
-  .setup-sub {
-    font-size: 13px; color: var(--muted);
-    text-align: center; line-height: 1.7;
-    max-width: 300px;
-  }
+  .setup-title { font-family: var(--font-head); font-size: 26px; font-weight: 800; text-align: center; }
+  .setup-sub { font-size: 13px; color: var(--muted); text-align: center; line-height: 1.7; max-width: 300px; }
   .setup-sub a { color: var(--accent2); text-decoration: none; }
   .setup-sub strong { color: var(--text); }
 
-  .setup-label {
-    font-size: 11px; letter-spacing: 0.08em;
-    color: var(--muted); text-transform: uppercase;
-    width: 100%; max-width: 360px;
-  }
+  .setup-label { font-size: 11px; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; width: 100%; max-width: 360px; }
   .setup-input {
     width: 100%; max-width: 360px;
     background: var(--surface);
@@ -121,9 +103,8 @@
     padding: 14px 16px;
     color: var(--text);
     font-family: var(--font-mono);
-    font-size: 16px; /* 16px prevents iOS zoom on focus */
+    font-size: 16px;
     outline: none;
-    /* iOS input fix */
     -webkit-appearance: none;
     appearance: none;
   }
@@ -139,16 +120,12 @@
     font-size: 16px; font-weight: 700;
     cursor: pointer;
     box-shadow: 0 8px 24px #6c63ff30;
-    /* iOS button fix */
     -webkit-appearance: none;
     appearance: none;
+    touch-action: manipulation;
   }
-  .setup-note {
-    font-size: 11px; color: var(--dimmed);
-    text-align: center; max-width: 300px; line-height: 1.6;
-  }
+  .setup-note { font-size: 11px; color: var(--dimmed); text-align: center; max-width: 300px; line-height: 1.6; }
 
-  /* ── Header ── */
   #header {
     position: relative; z-index: 10;
     display: flex; align-items: center; justify-content: space-between;
@@ -167,11 +144,22 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 15px;
   }
-  .app-title {
-    font-family: var(--font-head);
-    font-size: 17px; font-weight: 800;
-  }
+  .app-title { font-family: var(--font-head); font-size: 17px; font-weight: 800; }
   .app-title span { color: var(--accent2); }
+
+  .header-btn {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    width: 34px; height: 34px;
+    color: var(--muted);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    -webkit-appearance: none;
+    appearance: none;
+    touch-action: manipulation;
+  }
 
   #mic-status {
     display: flex; align-items: center; gap: 6px;
@@ -183,28 +171,23 @@
     color: var(--muted);
     transition: all 0.3s;
   }
-  #mic-status.active {
-    background: #ff6b6b18;
-    border-color: #ff6b6b44;
+  #mic-status.active { background: #ff6b6b18; border-color: #ff6b6b44; color: var(--hot); }
+  #mic-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--dimmed); transition: background 0.3s; flex-shrink: 0; }
+  #mic-status.active #mic-dot { background: var(--hot); animation: pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+
+  #net-banner {
+    display: none;
+    background: #ff6b6b22;
+    border-bottom: 1px solid #ff6b6b44;
     color: var(--hot);
-  }
-  #mic-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--dimmed);
-    transition: background 0.3s;
+    padding: 8px 14px;
+    font-size: 12px;
+    text-align: center;
     flex-shrink: 0;
   }
-  #mic-status.active #mic-dot {
-    background: var(--hot);
-    animation: pulse 1.2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.7); }
-  }
+  #net-banner.show { display: block; }
 
-  /* ── Transcript bar ── */
   #transcript-bar {
     position: relative; z-index: 5;
     padding: 10px 16px;
@@ -214,15 +197,9 @@
     display: flex; align-items: center; gap: 8px;
     flex-shrink: 0;
   }
-  #live-text {
-    font-size: 13px; color: var(--muted);
-    flex: 1; font-style: italic;
-    word-break: break-word; line-height: 1.4;
-    transition: color 0.3s;
-  }
+  #live-text { font-size: 13px; color: var(--muted); flex: 1; font-style: italic; word-break: break-word; line-height: 1.4; transition: color 0.3s; }
   #live-text.has-text { color: var(--accent2); font-style: normal; }
 
-  /* ── Messages ── */
   #messages {
     flex: 1;
     overflow-y: auto; overflow-x: hidden;
@@ -230,108 +207,46 @@
     display: flex; flex-direction: column;
     gap: 12px;
     position: relative; z-index: 1;
-    /* iOS smooth scroll */
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+    min-height: 0;
   }
   #messages::-webkit-scrollbar { display: none; }
 
-  #empty-state {
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 12px; flex: 1;
-    padding: 30px 20px;
-    text-align: center; opacity: 0.5;
-  }
+  #empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; flex: 1; padding: 30px 20px; text-align: center; opacity: 0.5; }
   #empty-state.hidden { display: none; }
   .empty-icon { font-size: 44px; }
-  .empty-title {
-    font-family: var(--font-head);
-    font-size: 17px; font-weight: 700;
-    color: var(--muted);
-  }
-  .empty-desc {
-    font-size: 12px; color: var(--dimmed);
-    line-height: 1.7; max-width: 220px;
+  .empty-title { font-family: var(--font-head); font-size: 17px; font-weight: 700; color: var(--muted); }
+  .empty-desc { font-size: 12px; color: var(--dimmed); line-height: 1.7; max-width: 220px; }
+
+  .msg-group { display: flex; flex-direction: column; gap: 4px; animation: slideUp 0.25s ease-out; }
+  @keyframes slideUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  .msg-label { font-size: 10px; letter-spacing: 0.08em; color: var(--dimmed); text-transform: uppercase; padding: 0 4px; display: flex; align-items: center; gap: 6px; }
+  .msg-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .msg-you { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px 12px 4px 12px; padding: 11px 13px; font-size: 13px; line-height: 1.55; color: var(--muted); word-break: break-word; margin-left: 14px; }
+  .msg-ai { background: linear-gradient(135deg, #1a1a2e, #16162a); border: 1px solid #6c63ff28; border-radius: 12px 12px 12px 4px; padding: 13px 15px; font-size: 14px; line-height: 1.75; color: var(--text); word-break: break-word; margin-right: 14px; box-shadow: 0 4px 16px #6c63ff0e; position: relative; }
+  .msg-ai::before { content:''; position:absolute; top:0;left:0;right:0;height:1px; background: linear-gradient(90deg, transparent, #6c63ff45, transparent); border-radius: 12px 12px 0 0; }
+  .msg-time { font-size: 10px; color: var(--dimmed); padding: 0 4px; text-align: right; }
+  .msg-error { background: #ff6b6b14; border: 1px solid #ff6b6b44; color: var(--hot); }
+  .msg-error .retry-btn {
+    display: inline-flex; align-items: center; gap: 4px;
+    margin-top: 8px;
+    background: var(--hot); color: #fff;
+    border: none; border-radius: 8px;
+    padding: 6px 12px; font-size: 12px;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    -webkit-appearance: none; appearance: none;
+    touch-action: manipulation;
   }
 
-  .msg-group {
-    display: flex; flex-direction: column; gap: 4px;
-    animation: slideUp 0.25s ease-out;
-  }
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .msg-label {
-    font-size: 10px; letter-spacing: 0.08em;
-    color: var(--dimmed); text-transform: uppercase;
-    padding: 0 4px;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .msg-label::after {
-    content: ''; flex: 1; height: 1px;
-    background: var(--border);
-  }
-  .msg-you {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 12px 12px 4px 12px;
-    padding: 11px 13px;
-    font-size: 13px; line-height: 1.55;
-    color: var(--muted);
-    word-break: break-word;
-    margin-left: 14px;
-  }
-  .msg-ai {
-    background: linear-gradient(135deg, #1a1a2e, #16162a);
-    border: 1px solid #6c63ff28;
-    border-radius: 12px 12px 12px 4px;
-    padding: 13px 15px;
-    font-size: 14px; line-height: 1.75;
-    color: var(--text);
-    word-break: break-word;
-    margin-right: 14px;
-    box-shadow: 0 4px 16px #6c63ff0e;
-    position: relative;
-  }
-  .msg-ai::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, #6c63ff45, transparent);
-    border-radius: 12px 12px 0 0;
-  }
-  .msg-time {
-    font-size: 10px; color: var(--dimmed);
-    padding: 0 4px; text-align: right;
-  }
-
-  /* Typing dots */
-  #typing {
-    display: none;
-    align-items: center; gap: 5px;
-    padding: 11px 14px;
-    background: var(--surface2);
-    border: 1px solid #6c63ff18;
-    border-radius: 12px 12px 12px 4px;
-    width: fit-content;
-    margin-right: 14px;
-  }
+  #typing { display: none; align-items: center; gap: 5px; padding: 11px 14px; background: var(--surface2); border: 1px solid #6c63ff18; border-radius: 12px 12px 12px 4px; width: fit-content; margin-right: 14px; }
   #typing.show { display: flex; }
-  .dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--accent2);
-    animation: typeDot 1.2s ease-in-out infinite;
-  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); animation: typeDot 1.2s ease-in-out infinite; }
   .dot:nth-child(2) { animation-delay: 0.2s; }
   .dot:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes typeDot {
-    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-    30% { transform: translateY(-4px); opacity: 1; }
-  }
+  @keyframes typeDot { 0%,60%,100%{transform:translateY(0);opacity:.4} 30%{transform:translateY(-4px);opacity:1} }
 
-  /* ── Controls ── */
   #controls {
     position: relative; z-index: 10;
     padding: 10px 14px 14px;
@@ -357,17 +272,13 @@
     text-align: center;
     display: flex; flex-direction: column;
     align-items: center; gap: 3px;
-    transition: all 0.18s;
-    /* iOS button fix */
+    transition: background 0.18s, border-color 0.18s, color 0.18s;
     -webkit-appearance: none;
     appearance: none;
+    touch-action: manipulation;
   }
   .mode-btn .btn-icon { font-size: 14px; }
-  .mode-btn.active {
-    background: #6c63ff1a;
-    border-color: var(--accent);
-    color: var(--accent2);
-  }
+  .mode-btn.active { background: #6c63ff1a; border-color: var(--accent); color: var(--accent2); }
 
   .action-row { display: flex; gap: 8px; align-items: center; }
 
@@ -382,22 +293,18 @@
     cursor: pointer;
     display: flex; align-items: center; justify-content: center; gap: 8px;
     box-shadow: 0 6px 18px #6c63ff30;
-    transition: all 0.2s;
-    /* iOS button fix */
-    -webkit-appearance: none;
-    appearance: none;
+    transition: background 0.2s;
+    -webkit-appearance: none; appearance: none;
+    touch-action: manipulation;
   }
   #listen-btn.listening {
     background: linear-gradient(135deg, #ff6b6b, #ff4444);
     box-shadow: 0 6px 18px #ff6b6b35;
     animation: btnPulse 2s ease-in-out infinite;
   }
-  @keyframes btnPulse {
-    0%, 100% { box-shadow: 0 6px 18px #ff6b6b35; }
-    50%       { box-shadow: 0 6px 28px #ff6b6b55; }
-  }
+  @keyframes btnPulse { 0%,100%{box-shadow:0 6px 18px #ff6b6b35} 50%{box-shadow:0 6px 28px #ff6b6b55} }
 
-  #send-btn {
+  .icon-btn {
     width: 50px; height: 50px;
     background: var(--surface2);
     border: 1px solid var(--border2);
@@ -406,23 +313,13 @@
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
-    -webkit-appearance: none;
-    appearance: none;
+    -webkit-appearance: none; appearance: none;
+    touch-action: manipulation;
+    transition: background 0.15s;
   }
-  #clear-btn {
-    width: 50px; height: 50px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 13px;
-    color: var(--dimmed); font-size: 16px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    -webkit-appearance: none;
-    appearance: none;
-  }
+  .icon-btn.muted { background: var(--surface); border-color: var(--border); color: var(--dimmed); font-size: 16px; }
+  .icon-btn:active { background: var(--accent); color: #fff; }
 
-  /* iOS notice banner */
   #ios-notice {
     background: #6c63ff22;
     border: 1px solid #6c63ff44;
@@ -436,7 +333,6 @@
   }
   #ios-notice.show { display: block; }
 
-  /* ── Settings ── */
   #settings-panel {
     position: fixed; inset: 0; z-index: 50;
     display: flex; flex-direction: column; justify-content: flex-end;
@@ -454,28 +350,14 @@
     transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
     display: flex; flex-direction: column; gap: 12px;
     max-height: 80vh;
+    max-height: 80dvh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
   #settings-panel.open #settings-sheet { transform: translateY(0); }
-  .sheet-handle {
-    width: 36px; height: 4px;
-    background: var(--dimmed); border-radius: 2px;
-    margin: 0 auto 4px;
-    flex-shrink: 0;
-  }
-  .sheet-title {
-    font-family: var(--font-head);
-    font-size: 19px; font-weight: 800;
-  }
-  .setting-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px;
-    background: var(--surface2);
-    border-radius: 11px;
-    border: 1px solid var(--border);
-    gap: 10px;
-  }
+  .sheet-handle { width: 36px; height: 4px; background: var(--dimmed); border-radius: 2px; margin: 0 auto 4px; flex-shrink: 0; }
+  .sheet-title { font-family: var(--font-head); font-size: 19px; font-weight: 800; }
+  .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--surface2); border-radius: 11px; border: 1px solid var(--border); gap: 10px; }
   .setting-info { display: flex; flex-direction: column; gap: 2px; flex: 1; }
   .setting-name { font-size: 13px; }
   .setting-desc { font-size: 11px; color: var(--muted); }
@@ -488,8 +370,6 @@
     font-family: var(--font-mono);
     -webkit-appearance: none;
     appearance: none;
-    /* iOS select fix */
-    color: var(--accent2);
     min-width: 90px;
     text-align: center;
   }
@@ -503,14 +383,13 @@
     font-size: 13px;
     cursor: pointer;
     text-align: center;
-    -webkit-appearance: none;
-    appearance: none;
+    -webkit-appearance: none; appearance: none;
+    touch-action: manipulation;
   }
 
-  /* ── Toast ── */
   #toast {
     position: fixed;
-    top: 78px; left: 50%;
+    top: calc(78px + var(--safe-top)); left: 50%;
     transform: translateX(-50%) translateY(-8px);
     background: var(--surface2);
     border: 1px solid var(--border2);
@@ -519,38 +398,35 @@
     font-size: 13px; color: var(--text);
     z-index: 300;
     opacity: 0;
-    transition: all 0.22s;
-    white-space: nowrap;
-    pointer-events: none;
+    transition: opacity .22s, transform .22s;
     max-width: 90vw;
     text-align: center;
+    pointer-events: none;
   }
   #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- ── Setup Screen ── -->
 <div id="setup-screen">
   <div class="setup-logo">🎙️</div>
   <div class="setup-title">AI Listener</div>
   <div class="setup-sub">
     Get your <strong>100% free</strong> API key at
-    <a href="https://console.groq.com" target="_blank">console.groq.com</a>
+    <a href="https://console.groq.com" target="_blank" rel="noopener">console.groq.com</a>
     — sign in with Google, no card needed!
   </div>
   <div class="setup-label">Groq API Key (Free — no card)</div>
   <input class="setup-input" type="password" id="api-key-input"
     placeholder="gsk_..." autocomplete="off" spellcheck="false"
     autocorrect="off" autocapitalize="none">
-  <button class="setup-btn" onclick="saveApiKey()">Start Listening →</button>
+  <button class="setup-btn" type="button" id="save-key-btn">Start Listening →</button>
   <div class="setup-note">
     Key stored only on this device.<br>
     Groq is 100% free for personal use — no limits.
   </div>
 </div>
 
-<!-- ── Header ── -->
 <div id="header">
   <div class="header-left">
     <div class="app-icon">🎙️</div>
@@ -561,21 +437,18 @@
       <div id="mic-dot"></div>
       <span id="mic-label">OFF</span>
     </div>
-    <button onclick="openSettings()"
-      style="background:var(--surface);border:1px solid var(--border2);
-             border-radius:8px;width:34px;height:34px;color:var(--muted);
-             font-size:16px;cursor:pointer;display:flex;align-items:center;
-             justify-content:center;-webkit-appearance:none">⚙️</button>
+    <button class="header-btn" type="button" id="refresh-btn" title="Refresh / reload">↻</button>
+    <button class="header-btn" type="button" id="settings-btn" title="Settings">⚙️</button>
   </div>
 </div>
 
-<!-- ── Live transcript ── -->
+<div id="net-banner">⚠️ You're offline — tap ↻ to refresh when back online</div>
+
 <div id="transcript-bar">
   <span style="font-size:14px;opacity:0.5;flex-shrink:0">👂</span>
   <div id="live-text">Tap "Start Listening" to begin...</div>
 </div>
 
-<!-- ── Messages ── -->
 <div id="messages">
   <div id="empty-state">
     <div class="empty-icon">🧠</div>
@@ -583,42 +456,37 @@
     <div class="empty-desc">Speak naturally — AI reads the conversation and gives you written answers only.</div>
   </div>
   <div id="typing">
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
   </div>
 </div>
 
-<!-- ── Controls ── -->
 <div id="controls">
-  <!-- iOS Safari notice -->
   <div id="ios-notice">
     📱 On iPhone: Tap <strong>Start Listening</strong> → allow mic → speak clearly. Safari restarts mic automatically.
   </div>
 
   <div class="mode-row">
-    <button class="mode-btn active" id="mode-auto" onclick="setMode('auto')">
+    <button class="mode-btn active" type="button" id="mode-auto" data-mode="auto">
       <span class="btn-icon">🔄</span>Auto
     </button>
-    <button class="mode-btn" id="mode-manual" onclick="setMode('manual')">
+    <button class="mode-btn" type="button" id="mode-manual" data-mode="manual">
       <span class="btn-icon">✋</span>Manual
     </button>
-    <button class="mode-btn" id="mode-dictate" onclick="setMode('dictate')">
+    <button class="mode-btn" type="button" id="mode-dictate" data-mode="dictate">
       <span class="btn-icon">🎤</span>Dictate
     </button>
   </div>
   <div class="action-row">
-    <button id="clear-btn" onclick="clearAll()">🗑️</button>
-    <button id="listen-btn" onclick="toggleListen()">
+    <button class="icon-btn muted" type="button" id="clear-btn" title="Clear">🗑️</button>
+    <button id="listen-btn" type="button">
       <span id="listen-icon">🎙️</span>
       <span id="listen-label">Start Listening</span>
     </button>
-    <button id="send-btn" onclick="sendManually()">↗</button>
+    <button class="icon-btn" type="button" id="send-btn" title="Send">↗</button>
   </div>
 </div>
 
-<!-- ── Settings ── -->
-<div id="settings-panel" onclick="bgClose(event)">
+<div id="settings-panel">
   <div id="settings-sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-title">Settings</div>
@@ -628,7 +496,7 @@
         <div class="setting-name">AI Model</div>
         <div class="setting-desc">All free on Groq</div>
       </div>
-      <select class="setting-val" id="model-select" onchange="saveSetting('model',this.value)">
+      <select class="setting-val" id="model-select">
         <option value="llama-3.3-70b-versatile" selected>Llama 3.3 70B</option>
         <option value="llama-3.1-8b-instant">Llama 3.1 8B</option>
         <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
@@ -641,7 +509,7 @@
         <div class="setting-name">Auto-send delay</div>
         <div class="setting-desc">Silence before sending</div>
       </div>
-      <select class="setting-val" id="delay-select" onchange="saveSetting('delay',this.value)">
+      <select class="setting-val" id="delay-select">
         <option value="1.5">1.5s fast</option>
         <option value="3" selected>3s balanced</option>
         <option value="5">5s relaxed</option>
@@ -654,7 +522,7 @@
         <div class="setting-name">Context memory</div>
         <div class="setting-desc">Exchanges AI remembers</div>
       </div>
-      <select class="setting-val" id="context-select" onchange="saveSetting('context',this.value)">
+      <select class="setting-val" id="context-select">
         <option value="5">5 msgs</option>
         <option value="10" selected>10 msgs</option>
         <option value="20">20 msgs</option>
@@ -666,7 +534,7 @@
         <div class="setting-name">Language</div>
         <div class="setting-desc">Speech recognition language</div>
       </div>
-      <select class="setting-val" id="lang-select" onchange="saveSetting('lang',this.value)">
+      <select class="setting-val" id="lang-select">
         <option value="en-US" selected>English</option>
         <option value="hi-IN">Hindi</option>
         <option value="en-IN">English (India)</option>
@@ -680,390 +548,462 @@
         <div class="setting-name">Change API Key</div>
         <div class="setting-desc">Enter a new Groq key</div>
       </div>
-      <button class="setting-val" onclick="resetApiKey()">Reset</button>
+      <button class="setting-val" type="button" id="reset-key-btn">Reset</button>
     </div>
 
-    <button class="sheet-close" onclick="closeSettings()">Close</button>
+    <button class="sheet-close" type="button" id="close-settings-btn">Close</button>
   </div>
 </div>
 
 <div id="toast"></div>
 
 <script>
-// ── State ──
-let apiKey     = localStorage.getItem('ai_key') || '';
-let isListening = false;
-let recognition = null;
-let fullText   = '';
-let history    = [];
-let autoTimer  = null;
-let restartTimer = null;
-let mode       = 'auto';
-let settings   = {
-  model:   localStorage.getItem('s_model')   || 'llama-3.3-70b-versatile',
-  delay:   parseFloat(localStorage.getItem('s_delay') || '3'),
-  context: parseInt(localStorage.getItem('s_context') || '10'),
-  lang:    localStorage.getItem('s_lang')    || 'en-US',
-};
+(function () {
+  'use strict';
 
-// ── Detect iOS ──
-const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-              (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  let apiKey      = localStorage.getItem('ai_key') || '';
+  let isListening = false;
+  let recognition = null;
+  let fullText    = '';
+  let history     = [];
+  let autoTimer   = null;
+  let restartTimer= null;
+  let restartCount= 0;
+  let lastRestartReset = Date.now();
+  let mode        = 'auto';
+  let lastFailedRequest = null;
 
-// ── Boot ──
-window.addEventListener('load', () => {
-  if (apiKey) {
-    document.getElementById('setup-screen').classList.add('hidden');
+  const settings = {
+    model:   localStorage.getItem('s_model')   || 'llama-3.3-70b-versatile',
+    delay:   parseFloat(localStorage.getItem('s_delay') || '3'),
+    context: parseInt(localStorage.getItem('s_context') || '10', 10),
+    lang:    localStorage.getItem('s_lang')    || 'en-US',
+  };
+
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  const $ = (id) => document.getElementById(id);
+
+  window.addEventListener('load', () => {
+    bindEvents();
+    if (apiKey) {
+      $('setup-screen').classList.add('hidden');
+      applySettings();
+      if (isIOS && !localStorage.getItem('ios_shown')) {
+        $('ios-notice').classList.add('show');
+        localStorage.setItem('ios_shown', '1');
+        setTimeout(() => $('ios-notice').classList.remove('show'), 6000);
+      }
+    }
+    updateNetBanner();
+  });
+
+  window.addEventListener('online',  updateNetBanner);
+  window.addEventListener('offline', updateNetBanner);
+  function updateNetBanner() {
+    const online = navigator.onLine;
+    $('net-banner').classList.toggle('show', !online);
+  }
+
+  function bindEvents() {
+    $('save-key-btn').addEventListener('click', saveApiKey);
+    $('refresh-btn').addEventListener('click', refreshApp);
+    $('settings-btn').addEventListener('click', openSettings);
+    $('close-settings-btn').addEventListener('click', closeSettings);
+    $('reset-key-btn').addEventListener('click', resetApiKey);
+    $('clear-btn').addEventListener('click', clearAll);
+    $('listen-btn').addEventListener('click', toggleListen);
+    $('send-btn').addEventListener('click', sendManually);
+
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => setMode(btn.dataset.mode));
+    });
+
+    $('model-select').addEventListener('change',   (e) => saveSetting('model',   e.target.value));
+    $('delay-select').addEventListener('change',   (e) => saveSetting('delay',   e.target.value));
+    $('context-select').addEventListener('change', (e) => saveSetting('context', e.target.value));
+    $('lang-select').addEventListener('change',    (e) => saveSetting('lang',    e.target.value));
+
+    $('settings-panel').addEventListener('click', (e) => {
+      if (e.target === $('settings-panel')) closeSettings();
+    });
+
+    $('api-key-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') saveApiKey();
+    });
+  }
+
+  function applySettings() {
+    $('model-select').value   = settings.model;
+    $('delay-select').value   = settings.delay;
+    $('context-select').value = settings.context;
+    $('lang-select').value    = settings.lang;
+  }
+
+  function saveApiKey() {
+    const val = $('api-key-input').value.trim();
+    if (!val.startsWith('gsk_')) {
+      showToast('⚠️ Groq key must start with gsk_');
+      return;
+    }
+    apiKey = val;
+    localStorage.setItem('ai_key', val);
+    $('setup-screen').classList.add('hidden');
     applySettings();
-    // Show iOS hint first time
-    if (isIOS && !localStorage.getItem('ios_shown')) {
-      document.getElementById('ios-notice').classList.add('show');
-      localStorage.setItem('ios_shown', '1');
-      setTimeout(() => document.getElementById('ios-notice').classList.remove('show'), 6000);
+    showToast('✅ Key saved! Ready to listen.');
+    if (isIOS) {
+      $('ios-notice').classList.add('show');
+      setTimeout(() => $('ios-notice').classList.remove('show'), 6000);
     }
   }
-  // Fix iOS viewport height on keyboard open
-  fixViewport();
-  window.addEventListener('resize', fixViewport);
-});
-
-function fixViewport() {
-  // iOS Safari fix: use window.innerHeight instead of 100vh
-  document.body.style.height = window.innerHeight + 'px';
-}
-
-function applySettings() {
-  document.getElementById('model-select').value   = settings.model;
-  document.getElementById('delay-select').value   = settings.delay;
-  document.getElementById('context-select').value = settings.context;
-  document.getElementById('lang-select').value    = settings.lang;
-}
-
-// ── API Key ──
-function saveApiKey() {
-  const val = document.getElementById('api-key-input').value.trim();
-  if (!val.startsWith('gsk_')) {
-    showToast('⚠️ Groq key must start with gsk_');
-    return;
-  }
-  apiKey = val;
-  localStorage.setItem('ai_key', val);
-  document.getElementById('setup-screen').classList.add('hidden');
-  applySettings();
-  showToast('✅ Key saved! Ready to listen.');
-  if (isIOS) {
-    document.getElementById('ios-notice').classList.add('show');
-    setTimeout(() => document.getElementById('ios-notice').classList.remove('show'), 6000);
-  }
-}
-function resetApiKey() {
-  localStorage.removeItem('ai_key');
-  apiKey = '';
-  if (isListening) stopRecognition();
-  closeSettings();
-  document.getElementById('setup-screen').classList.remove('hidden');
-}
-
-function saveSetting(key, val) {
-  if (key === 'delay')   settings.delay   = parseFloat(val);
-  else if (key === 'context') settings.context = parseInt(val);
-  else settings[key] = val;
-  localStorage.setItem('s_' + key, val);
-  showToast('✅ Saved');
-  // If language changed and currently listening, restart
-  if (key === 'lang' && isListening) {
-    stopRecognition();
-    setTimeout(startRecognition, 500);
-  }
-}
-
-// ── Speech Recognition (iOS Safari compatible) ──
-function startRecognition() {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) {
-    showToast('❌ Use Safari browser on iPhone');
-    return;
+  function resetApiKey() {
+    localStorage.removeItem('ai_key');
+    apiKey = '';
+    if (isListening) stopRecognition();
+    closeSettings();
+    $('setup-screen').classList.remove('hidden');
   }
 
-  try {
-    recognition = new SR();
-  } catch(e) {
-    showToast('❌ Mic error: ' + e.message);
-    return;
-  }
-
-  // iOS Safari: continuous=true can fail, use false + auto-restart
-  recognition.continuous     = !isIOS; // false on iOS, true on desktop
-  recognition.interimResults = true;
-  recognition.lang           = settings.lang;
-  recognition.maxAlternatives = 1;
-
-  recognition.onstart = () => {
-    isListening = true;
-    updateMicUI(true);
-  };
-
-  recognition.onresult = (e) => {
-    let final = '', interim = '';
-    for (let i = e.resultIndex; i < e.results.length; i++) {
-      if (e.results[i].isFinal) final += e.results[i][0].transcript + ' ';
-      else interim += e.results[i][0].transcript;
+  function saveSetting(key, val) {
+    if (key === 'delay')        settings.delay   = parseFloat(val);
+    else if (key === 'context') settings.context = parseInt(val, 10);
+    else                        settings[key] = val;
+    localStorage.setItem('s_' + key, val);
+    showToast('✅ Saved');
+    if (key === 'lang' && isListening) {
+      stopRecognition();
+      setTimeout(startRecognition, 500);
     }
-    if (final) fullText += final;
-    updateLiveText((fullText + interim).trim());
+  }
 
-    if (final && mode === 'auto') {
-      clearTimeout(autoTimer);
-      autoTimer = setTimeout(() => {
-        if (fullText.trim().length > 2) sendToAI();
-      }, settings.delay * 1000);
+  function refreshApp() {
+    showToast('↻ Refreshing…');
+    if (isListening) stopRecognition();
+    setTimeout(() => { window.location.reload(); }, 200);
+  }
+
+  function startRecognition() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) {
+      showToast('❌ Speech recognition not supported. Use Safari on iPhone.');
+      return;
     }
-  };
 
-  recognition.onend = () => {
-    // iOS Safari stops recognition after ~60s or silence
-    // Auto-restart if we're still supposed to be listening
-    if (isListening && mode !== 'dictate') {
-      // Small delay before restart (iOS needs this)
-      restartTimer = setTimeout(() => {
-        if (isListening) {
-          try {
-            recognition = null;
-            startRecognition();
-          } catch(e) {}
-        }
-      }, isIOS ? 300 : 100);
-    } else if (mode === 'dictate' && isListening) {
+    const now = Date.now();
+    if (now - lastRestartReset > 10000) { restartCount = 0; lastRestartReset = now; }
+    if (restartCount > 8) {
       isListening = false;
       updateMicUI(false);
-      if (fullText.trim()) sendToAI();
-    } else {
-      isListening = false;
-      updateMicUI(false);
+      showToast('⚠️ Mic restart loop — tap to try again');
+      restartCount = 0;
+      return;
     }
-  };
 
-  recognition.onerror = (e) => {
-    if (e.error === 'not-allowed' || e.error === 'permission-denied') {
-      showToast('❌ Allow microphone in Safari Settings');
+    try {
+      recognition = new SR();
+    } catch (e) {
+      showToast('❌ Mic error: ' + e.message);
       isListening = false;
       updateMicUI(false);
       return;
     }
-    if (e.error === 'no-speech') return; // Normal, ignore
-    if (e.error === 'aborted') return;   // We stopped it, ignore
-    // For other errors on iOS, try restart
-    if (isListening && isIOS) {
-      restartTimer = setTimeout(() => {
-        if (isListening) { recognition = null; startRecognition(); }
-      }, 500);
+
+    recognition.continuous     = !isIOS;
+    recognition.interimResults = true;
+    recognition.lang           = settings.lang;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => {
+      isListening = true;
+      updateMicUI(true);
+    };
+
+    recognition.onresult = (e) => {
+      let final = '', interim = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        if (e.results[i].isFinal) final += e.results[i][0].transcript + ' ';
+        else interim += e.results[i][0].transcript;
+      }
+      if (final) fullText += final;
+      updateLiveText((fullText + interim).trim());
+
+      if (final && mode === 'auto') {
+        clearTimeout(autoTimer);
+        autoTimer = setTimeout(() => {
+          if (fullText.trim().length > 2) sendToAI();
+        }, settings.delay * 1000);
+      }
+    };
+
+    recognition.onend = () => {
+      if (isListening && mode !== 'dictate') {
+        restartCount++;
+        restartTimer = setTimeout(() => {
+          if (isListening) {
+            recognition = null;
+            startRecognition();
+          }
+        }, isIOS ? 350 : 100);
+      } else if (mode === 'dictate' && isListening) {
+        isListening = false;
+        updateMicUI(false);
+        if (fullText.trim()) sendToAI();
+      } else {
+        isListening = false;
+        updateMicUI(false);
+      }
+    };
+
+    recognition.onerror = (e) => {
+      if (e.error === 'not-allowed' || e.error === 'permission-denied' || e.error === 'service-not-allowed') {
+        showToast('❌ Allow microphone in Safari Settings');
+        isListening = false;
+        updateMicUI(false);
+        return;
+      }
+      if (e.error === 'no-speech' || e.error === 'aborted') return;
+      if (e.error === 'network') {
+        showToast('❌ Mic needs internet — check connection');
+        isListening = false;
+        updateMicUI(false);
+        return;
+      }
+    };
+
+    try {
+      recognition.start();
+    } catch (e) {
+      setTimeout(() => {
+        if (isListening) {
+          try { recognition && recognition.start(); }
+          catch (_) {
+            isListening = false;
+            updateMicUI(false);
+            showToast('❌ Could not start mic. Tap again.');
+          }
+        }
+      }, 400);
     }
-  };
+  }
 
-  try {
-    recognition.start();
-  } catch(e) {
-    showToast('❌ Could not start mic. Try again.');
+  function stopRecognition() {
+    clearTimeout(autoTimer);
+    clearTimeout(restartTimer);
     isListening = false;
+    restartCount = 0;
+    if (recognition) {
+      try { recognition.onend = null; recognition.onerror = null; } catch(_){}
+      try { recognition.abort(); } catch(_){}
+      recognition = null;
+    }
     updateMicUI(false);
+    updateLiveText('');
   }
-}
 
-function stopRecognition() {
-  clearTimeout(autoTimer);
-  clearTimeout(restartTimer);
-  isListening = false;
-  if (recognition) {
-    try { recognition.abort(); } catch(e) {}
-    recognition = null;
+  function toggleListen() {
+    if (isListening) stopRecognition();
+    else { fullText = ''; restartCount = 0; startRecognition(); }
   }
-  updateMicUI(false);
-  updateLiveText('');
-}
 
-function toggleListen() {
-  if (isListening) {
-    stopRecognition();
-  } else {
-    fullText = '';
-    startRecognition();
+  function setMode(m) {
+    mode = m;
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    $('mode-' + m).classList.add('active');
+    $('listen-label').textContent = (m === 'dictate') ? 'Start Dictating' : 'Start Listening';
+    if (isListening) stopRecognition();
+    showToast(m === 'auto' ? '🔄 Auto-send on'
+            : m === 'manual' ? '✋ Manual mode'
+            : '🎤 Dictate mode');
   }
-}
 
-function setMode(m) {
-  mode = m;
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('mode-' + m).classList.add('active');
-  const lbl = document.getElementById('listen-label');
-  lbl.textContent = m === 'dictate' ? 'Start Dictating' : 'Start Listening';
-  if (isListening) stopRecognition();
-  const msg = m === 'auto' ? '🔄 Auto-send on' : m === 'manual' ? '✋ Manual mode' : '🎤 Dictate mode';
-  showToast(msg);
-}
-
-function sendManually() {
-  if (!fullText.trim()) { showToast('⚠️ Nothing to send'); return; }
-  clearTimeout(autoTimer);
-  sendToAI();
-}
-
-function clearAll() {
-  history = []; fullText = '';
-  const msgs = document.getElementById('messages');
-  msgs.innerHTML = `
-    <div id="empty-state">
-      <div class="empty-icon">🧠</div>
-      <div class="empty-title">Ready to listen</div>
-      <div class="empty-desc">Speak naturally — AI reads the conversation and gives you written answers only.</div>
-    </div>
-    <div id="typing">
-      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-    </div>`;
-  updateLiveText('');
-  showToast('🗑️ Cleared');
-}
-
-// ── UI ──
-function updateMicUI(active) {
-  document.getElementById('mic-status').classList.toggle('active', active);
-  document.getElementById('mic-label').textContent = active ? 'LIVE' : 'OFF';
-  document.getElementById('listen-btn').classList.toggle('listening', active);
-  document.getElementById('listen-icon').textContent = active ? '⏹' : '🎙️';
-  document.getElementById('listen-label').textContent =
-    active ? 'Stop Listening'
-           : (mode === 'dictate' ? 'Start Dictating' : 'Start Listening');
-}
-function updateLiveText(t) {
-  const el = document.getElementById('live-text');
-  if (t) { el.textContent = t; el.classList.add('has-text'); }
-  else {
-    el.textContent = isListening ? 'Listening… speak now' : 'Tap "Start Listening" to begin...';
-    el.classList.remove('has-text');
+  function sendManually() {
+    if (!fullText.trim()) { showToast('⚠️ Nothing to send'); return; }
+    clearTimeout(autoTimer);
+    sendToAI();
   }
-}
 
-// ── Groq API call ──
-async function sendToAI() {
-  const text = fullText.trim();
-  if (!text || !apiKey) return;
+  function clearAll() {
+    history = []; fullText = '';
+    lastFailedRequest = null;
+    const msgs = $('messages');
+    msgs.innerHTML = `
+      <div id="empty-state">
+        <div class="empty-icon">🧠</div>
+        <div class="empty-title">Ready to listen</div>
+        <div class="empty-desc">Speak naturally — AI reads the conversation and gives you written answers only.</div>
+      </div>
+      <div id="typing">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>`;
+    updateLiveText('');
+    showToast('🗑️ Cleared');
+  }
 
-  fullText = '';
-  updateLiveText('');
+  function updateMicUI(active) {
+    $('mic-status').classList.toggle('active', active);
+    $('mic-label').textContent = active ? 'LIVE' : 'OFF';
+    $('listen-btn').classList.toggle('listening', active);
+    $('listen-icon').textContent = active ? '⏹' : '🎙️';
+    $('listen-label').textContent =
+      active ? 'Stop Listening'
+             : (mode === 'dictate' ? 'Start Dictating' : 'Start Listening');
+  }
+  function updateLiveText(t) {
+    const el = $('live-text');
+    if (t) { el.textContent = t; el.classList.add('has-text'); }
+    else {
+      el.textContent = isListening ? 'Listening… speak now' : 'Tap "Start Listening" to begin...';
+      el.classList.remove('has-text');
+    }
+  }
 
-  const empty = document.getElementById('empty-state');
-  if (empty) empty.classList.add('hidden');
+  async function sendToAI(retryText) {
+    const text = retryText || fullText.trim();
+    if (!text || !apiKey) return;
 
-  addMessage('you', text);
+    if (!retryText) { fullText = ''; updateLiveText(''); }
 
-  const typing = document.getElementById('typing');
-  if (typing) typing.classList.add('show');
-  scrollBottom();
+    const empty = $('empty-state');
+    if (empty) empty.classList.add('hidden');
 
-  // Build message history (OpenAI-compatible format for Groq)
-  history.push({ role: 'user', content: text });
-  if (history.length > settings.context * 2)
-    history = history.slice(-settings.context * 2);
+    if (!retryText) addMessage('you', text);
 
-  const messages = [
-    {
-      role: 'system',
-      content: `You are an AI conversation assistant listening to spoken conversations.
+    const typing = $('typing');
+    if (typing) typing.classList.add('show');
+    scrollBottom();
+
+    if (!retryText) {
+      history.push({ role: 'user', content: text });
+      if (history.length > settings.context * 2)
+        history = history.slice(-settings.context * 2);
+    }
+
+    const messages = [
+      {
+        role: 'system',
+        content: `You are an AI conversation assistant listening to spoken conversations.
 Rules:
 - Respond in TEXT ONLY — no voice output suggestions
 - Be concise and direct (under 150 words unless detail genuinely needed)
 - Answer questions clearly; give useful context for general conversation
 - Never start with "I heard you say" — just respond helpfully
 - Format nicely but keep it brief`
-    },
-    ...history
-  ];
-
-  try {
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
       },
-      body: JSON.stringify({
-        model: settings.model,
-        messages: messages,
-        max_tokens: 300,
-        temperature: 0.7,
-        stream: false
-      })
+      ...history
+    ];
+
+    const ctrl = new AbortController();
+    const timeoutId = setTimeout(() => ctrl.abort(), 30000);
+
+    try {
+      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + apiKey
+        },
+        body: JSON.stringify({
+          model: settings.model,
+          messages: messages,
+          max_tokens: 300,
+          temperature: 0.7,
+          stream: false
+        }),
+        signal: ctrl.signal
+      });
+      clearTimeout(timeoutId);
+
+      const data = await res.json();
+      if (typing) typing.classList.remove('show');
+
+      if (data.error) {
+        showToast('❌ ' + (data.error.message || 'API error'));
+        if (!retryText) history.pop();
+        return;
+      }
+
+      const reply = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+      if (reply) {
+        const trimmed = reply.trim();
+        history.push({ role: 'assistant', content: trimmed });
+        addMessage('ai', trimmed);
+        lastFailedRequest = null;
+      }
+    } catch (err) {
+      clearTimeout(timeoutId);
+      if (typing) typing.classList.remove('show');
+      const offline = !navigator.onLine;
+      const msg = offline
+        ? 'You\'re offline. Check connection and tap Retry or ↻ to refresh.'
+        : 'Network error: ' + (err && err.message ? err.message : 'request failed');
+      addErrorMessage(msg, text);
+      lastFailedRequest = text;
+      if (!retryText) history.pop();
+    }
+    scrollBottom();
+  }
+
+  function addMessage(who, text) {
+    const msgs = $('messages');
+    const g = document.createElement('div');
+    g.className = 'msg-group';
+    const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const label = who === 'you' ? 'You said' : 'AI response';
+    g.innerHTML =
+      '<div class="msg-label">' + label + '</div>' +
+      '<div class="msg-' + who + '">' + fmt(text) + '</div>' +
+      '<div class="msg-time">' + now + '</div>';
+    const typing = $('typing');
+    if (typing) msgs.insertBefore(g, typing); else msgs.appendChild(g);
+    scrollBottom();
+  }
+
+  function addErrorMessage(errText, originalText) {
+    const msgs = $('messages');
+    const g = document.createElement('div');
+    g.className = 'msg-group';
+    const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    g.innerHTML =
+      '<div class="msg-label">Error</div>' +
+      '<div class="msg-ai msg-error">' + fmt(errText) +
+        '<br><button class="retry-btn" type="button">↻ Retry</button>' +
+      '</div>' +
+      '<div class="msg-time">' + now + '</div>';
+    const typing = $('typing');
+    if (typing) msgs.insertBefore(g, typing); else msgs.appendChild(g);
+    g.querySelector('.retry-btn').addEventListener('click', () => {
+      g.remove();
+      sendToAI(originalText);
     });
-
-    const data = await res.json();
-    if (typing) typing.classList.remove('show');
-
-    if (data.error) {
-      showToast('❌ ' + (data.error.message || 'API error'));
-      history.pop(); return;
-    }
-
-    const reply = data.choices?.[0]?.message?.content?.trim();
-    if (reply) {
-      history.push({ role: 'assistant', content: reply });
-      addMessage('ai', reply);
-    }
-  } catch (err) {
-    if (typing) typing.classList.remove('show');
-    showToast('❌ Network error. Check connection.');
-    history.pop();
+    scrollBottom();
   }
-  scrollBottom();
-}
 
-function addMessage(who, text) {
-  const msgs = document.getElementById('messages');
-  const g = document.createElement('div');
-  g.className = 'msg-group';
-  const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  const label = who === 'you' ? 'You said' : 'AI response';
-  g.innerHTML = `
-    <div class="msg-label">${label}</div>
-    <div class="msg-${who}">${fmt(text)}</div>
-    <div class="msg-time">${now}</div>`;
-  const typing = document.getElementById('typing');
-  if (typing) msgs.insertBefore(g, typing); else msgs.appendChild(g);
-  scrollBottom();
-}
-
-function fmt(t) {
-  return t
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g,'<em>$1</em>')
-    .replace(/\n/g,'<br>');
-}
-
-function scrollBottom() {
-  const m = document.getElementById('messages');
-  // iOS scroll fix
-  setTimeout(() => { m.scrollTop = m.scrollHeight; }, 50);
-}
-
-// Settings
-function openSettings()  { document.getElementById('settings-panel').classList.add('open'); }
-function closeSettings() { document.getElementById('settings-panel').classList.remove('open'); }
-function bgClose(e) { if (e.target === document.getElementById('settings-panel')) closeSettings(); }
-
-// Toast
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-// iOS: prevent double-tap zoom on buttons
-document.addEventListener('touchend', (e) => {
-  if (e.target.closest('button, .mode-btn')) {
-    e.preventDefault();
+  function fmt(t) {
+    return String(t)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g,'<em>$1</em>')
+      .replace(/\n/g,'<br>');
   }
-}, { passive: false });
+
+  function scrollBottom() {
+    const m = $('messages');
+    setTimeout(() => { m.scrollTop = m.scrollHeight; }, 50);
+  }
+
+  function openSettings()  { $('settings-panel').classList.add('open'); }
+  function closeSettings() { $('settings-panel').classList.remove('open'); }
+
+  let toastTimer = null;
+  function showToast(msg) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+  }
+})();
 </script>
 </body>
 </html>
